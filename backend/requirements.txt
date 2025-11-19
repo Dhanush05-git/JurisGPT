@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-dotenv
+pydantic
+pypdf
+python-docx
+unstructured
+sentence-transformers
+faiss-cpu
+langchain-community
+huggingface_hub
+openai
+scikit-learn
+
