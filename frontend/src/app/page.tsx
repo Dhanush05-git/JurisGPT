@@ -69,7 +69,7 @@ export default function JurisGPTPage() {
         >
           <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-2 mb-6">
             <Scale className="w-4 h-4 text-amber-500" />
-            <span className="text-sm text-amber-500/90 font-medium">AI-Powered Legal Intelligence</span>
+            <span className="text-sm text-amber-500/90 font-medium">JurisGPT</span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-br from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
