@@ -100,9 +100,11 @@ export default function JurisGPTPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder='Try "What is Article 21?" or "Section 420 punishment"'
-                className="flex-1 bg-transparent text-white text-base md:text-lg px-2 py-5 focus:outline-none placeholder:text-slate-600 font-light"
+                className="flex-1 bg-neutral-800 text-white text-base md:text-lg px-2 py-5 rounded-lg
+                          focus:outline-none placeholder:text-gray-400 font-light"
                 autoComplete="off"
               />
+
 
               <motion.button
                 type="submit"
