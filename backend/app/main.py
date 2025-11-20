@@ -3,6 +3,7 @@ load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from app.api.query import router as query_router
+from app.api.admin import router as admin_router
 
 app = FastAPI(
     title="JurisGPT Backend",
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(query_router, prefix="/api/query", tags=["Query"])
+app.include_router(admin_router)
 
 @app.get("/")
 def root():

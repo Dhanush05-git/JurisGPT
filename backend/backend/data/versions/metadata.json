@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1763608543",
+    "name": "Upload-1763608543",
+    "files": [
+      "backend/data/uploads/1763608543/bns.txt",
+      "backend/data/uploads/1763608543/constitution.txt",
+      "backend/data/uploads/1763608543/ipc.txt"
+    ],
+    "status": "active",
+    "created_at": "2025-11-20T08:45:43.284540",
+    "chunks_count": 14,
+    "embedded_at": "2025-11-20T08:45:47.260119",
+    "active": true
+  }
+]
