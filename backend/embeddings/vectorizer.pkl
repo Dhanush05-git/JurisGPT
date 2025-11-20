@@ -1,1 +1,0 @@
-https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NjMzNTUzMTAsInB1ciI6ImJsb2JfaWQifX0=--9b8965e2aab50263c38611612c8b4dab8be1d82d/-vectorizer.pkl
