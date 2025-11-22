@@ -38,8 +38,11 @@ class EmbeddingService:
     def save_vectorizer(self, path: str):
         if self.vectorizer is None:
             raise RuntimeError("No vectorizer to save")
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        dirn = os.path.dirname(path)
+        if dirn:
+            os.makedirs(dirn, exist_ok=True)
         joblib.dump(self.vectorizer, path)
+
 
     def load_vectorizer(self, path: str):
         self.vectorizer = joblib.load(path)

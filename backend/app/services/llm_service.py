@@ -1,34 +1,73 @@
+# backend/app/services/llm_service.py
 import os
-from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
 
+try:
+    from groq import Groq
+except Exception:
+    Groq = None
+
+API_KEY = os.getenv("GROQ_API_KEY")
+
 class LLMService:
     def __init__(self):
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        if Groq is None or API_KEY is None:
+            self.client = None
+        else:
+            self.client = Groq(api_key=API_KEY)
 
-    def generate_answer(self, query: str, context: str):
+    def generate_answer(self, query: str, context: str) -> str:
+        """
+        Ask model to respond in the JurisGPT structure:
+        1) Summary (2-3 lines)
+        2) Relevant Legal Provisions (act, sections, short quotes)
+        3) Case Law (if present in context)
+        4) Step-by-step explanation
+        5) Safety Note
+        IMPORTANT: Model must ONLY use the provided context and must NOT hallucinate.
+        """
         prompt = f"""
-                You are JurisGPT, an AI specialized in Indian law.
+You are JurisGPT, an assistant specialized in Indian law.
 
-                Answer ONLY using the provided context.
-                Do NOT invent or hallucinate any law, section or article.
+INSTRUCTIONS:
+- Use ONLY the provided CONTEXT. Do NOT invent laws, sections, or cases.
+- If the context does not contain the information needed, respond exactly:
+  "The relevant information is not available in the provided documents."
+- Output MUST be structured exactly as:
+  1) Summary (2-3 lines)
+  2) Relevant Legal Provisions:
+     - <Act Name> — Section <x>: "<short quote or excerpt from context>"
+     - ...
+  3) Case Law:
+     - <Case name / citation and short excerpt> (only if present in context)
+  4) Step-by-step explanation:
+     - <clear numbered steps explaining how the law applies, based only on context>
+  5) Safety Note: "This is for informational purposes only and not legal advice."
 
-            Question:
-            {query}
+QUESTION:
+{query}
 
-            Context:
-            {context}
+CONTEXT:
+{context}
 
-            Provide a clear, concise legal explanation:
-            """
+Produce the answer now using only the context and the structure above.
+"""
 
-        response = self.client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
+        if self.client is None:
+            # fallback: return context-aware fixed message
+            return "LLM client not configured. Please set GROQ_API_KEY and ensure the groq package is installed."
 
-        return response.choices[0].message.content
+        try:
+            response = self.client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=1024
+            )
+            # Groq SDK returns response.choices[0].message.content
+            text = response.choices[0].message.content
+            return text
+        except Exception as e:
+            # return readable error for debugging
+            return f"LLM generation error: {str(e)}"
